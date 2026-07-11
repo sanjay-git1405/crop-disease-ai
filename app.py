@@ -4,10 +4,19 @@ from torchvision import transforms, datasets
 import torchvision.models as models
 import torch.nn as nn
 from PIL import Image
+import os
+import urllib.request
 
 # 1. Page Setup
 st.set_page_config(page_title="Crop Disease AI", page_icon="🌱")
 st.title("🌱 Crop Disease Diagnostics AI")
+model_path = "crop_disease_model.pth"
+if not os.path.exists(model_path):
+    st.info("Downloading AI model for the first time... this might take a minute!")
+    # Paste your GitHub Releases link below:
+    url = "PASTE_YOUR_COPIED_LINK_HERE" 
+    urllib.request.urlretrieve(url, model_path)
+    st.success("Download complete!")
 st.write("Upload a picture of a plant leaf, and the AI will detect if it's healthy or diseased!")
 
 # 2. Setup Device and Transforms
@@ -24,7 +33,12 @@ def load_model():
 @st.cache_resource
 def load_model():
     # 1. PASTE YOUR EXACT LIST HERE instead of reading the dataset folder
-    class_names = ['Pepper__bell___Bacterial_spot', 'Pepper__bell___healthy', 'Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy', 'Tomato_Bacterial_spot', 'Tomato_Early_blight', 'Tomato_Late_blight', 'Tomato_Leaf_Mold', 'Tomato_Septoria_leaf_spot', 'Tomato_Spider_mites_Two_spotted_spider_mite', 'Tomato__Target_Spot', 'Tomato__Tomato_YellowLeaf__Curl_Virus', 'Tomato__Tomato_mosaic_virus', 'Tomato_healthy'] # Replace this with your copied list!
+    class_names = ['Pepper__bell___Bacterial_spot', 'Pepper__bell___healthy',
+     'Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy',
+      'Tomato_Bacterial_spot', 'Tomato_Early_blight', 'Tomato_Late_blight',
+       'Tomato_Leaf_Mold', 'Tomato_Septoria_leaf_spot', 'Tomato_Spider_mites_Two_spotted_spider_mite',
+        'Tomato__Target_Spot', 'Tomato__Tomato_YellowLeaf__Curl_Virus',
+         'Tomato__Tomato_mosaic_virus', 'Tomato_healthy'] # Replace this with your copied list!
     
     # 2. Setup ResNet18
     model = models.resnet18()
