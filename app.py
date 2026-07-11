@@ -18,7 +18,7 @@ model_path = "crop_disease_model.pth"
 if not os.path.exists(model_path):
     st.info("Downloading AI model for the first time... this might take a minute!")
     # PASTE YOUR COPIED GITHUB RELEASE LINK IN THE QUOTES BELOW:
-    url = "PASTE_YOUR_COPIED_LINK_HERE" 
+    url = "https://github.com/sanjay-git1405/crop-disease-ai/releases/download/v1.0/crop_disease_model.pth" 
     urllib.request.urlretrieve(url, model_path)
     st.success("Download complete!")
 # ---------------------------
