@@ -11,7 +11,16 @@ import urllib.request
 st.set_page_config(page_title="Crop Disease AI", page_icon="🌱")
 st.title("🌱 Crop Disease Diagnostics AI")
 st.write("Upload a picture of a plant leaf, and the AI will detect if it's healthy or diseased!")
-
+# --- SIDEBAR MENU ---
+with st.sidebar:
+    st.header("🌱 About the App")
+    st.write("This AI was trained using PyTorch and a ResNet18 model to instantly diagnose 15 different types of crop conditions.")
+    st.write("---")
+    st.write("**How to use:**")
+    st.write("1. Take a clear photo of a plant leaf.")
+    st.write("2. Upload it on the main screen.")
+    st.write("3. Get your instant diagnosis and treatment plan!")
+# --------------------
 # --- NEW DOWNLOAD SCRIPT ---
 # This ensures the heavy model file is downloaded from GitHub Releases
 model_path = "crop_disease_model.pth"
@@ -73,19 +82,36 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
     st.image(image, caption="Uploaded Leaf", use_column_width=True)
     
-    st.write("🧠 **AI is analyzing...**")
+st.write("🧠 **AI is analyzing...**")
     
     # Process image and predict
     image_tensor = transform(image).unsqueeze(0).to(device)
     
     with torch.no_grad():
         outputs = model(image_tensor)
+        
+        # --- UPGRADE 1: Calculate Confidence Percentage ---
+        probabilities = torch.nn.functional.softmax(outputs[0], dim=0)
+        confidence = torch.max(probabilities).item() * 100
+        
         _, predicted = torch.max(outputs, 1)
         
     result = class_names[predicted.item()]
-    
-    # Format the result nicely (e.g., changing "Potato___Early_blight" to "Potato - Early blight")
     clean_result = result.replace("___", " - ").replace("_", " ")
     
-    # Display the final diagnosis!
+    # --- UPGRADE 2: Treatment Advice Dictionary ---
+    # You can add more specific advice for your 15 classes here!
+    advice_dict = {
+        # Example: "Your_Exact_Class_Name": "Advice text"
+        "Tomato___Early_blight": "Remove affected leaves and apply a copper-based fungicide. Avoid watering from above.",
+        "Potato___Late_blight": "Apply fungicide immediately. Destroy heavily infected plants to prevent spreading.",
+        "Tomato___Healthy": "Your plant looks fantastic! Keep up the good work with regular watering and sunlight."
+    }
+    
+    # Get the advice for the predicted result, or show a default message if not listed
+    treatment = advice_dict.get(result, "Monitor the plant closely. Ensure proper sunlight, drainage, and air circulation.")
+    
+    # --- Display the Upgraded Results ---
     st.success(f"### Diagnosis: {clean_result}")
+    st.info(f"**Confidence:** {confidence:.2f}%")
+    st.warning(f"**Recommended Action:** {treatment}")
