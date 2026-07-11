@@ -47,9 +47,12 @@ transform = transforms.Compose([
 def load_model():
     # NOTE: Once you find your 15 real plant names, replace this list!
     class_names = [
-        'Class_1', 'Class_2', 'Class_3', 'Class_4', 'Class_5', 
-        'Class_6', 'Class_7', 'Class_8', 'Class_9', 'Class_10',
-        'Class_11', 'Class_12', 'Class_13', 'Class_14', 'Class_15'
+        'Pepper__bell___Bacterial_spot', 'Pepper__bell___healthy', 'Potato___Early_blight', 'Potato___healthy', 
+        'Potato___Late_blight', 
+        'Tomato__Target_Spot', 'Tomato__Tomato_mosaic_virus', 'Tomato__Tomato_YellowLeaf__Curl_Virus',
+         'Tomato_Bacterial_spot', 'Tomato_Early_blight',
+        'Tomato_healthy', 'Tomato_Late_blight', 'Tomato_Leaf_Mold', 'Tomato_Septoria_leaf_spot',
+         'Tomato_Spider_mites_Two_spotted_spider_mite'
     ] 
     
     # Setup ResNet18
