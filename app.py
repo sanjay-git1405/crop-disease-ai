@@ -36,12 +36,13 @@ transform = transforms.Compose([
 # st.cache_resource is the recommended way to cache global resources like ML models so it doesn't reload on every interaction.
 @st.cache_resource
 def load_model():
-    # REPLACE THIS LIST with your exact 15 class names
+  # Replace these with your model's actual 15 categories!
     class_names = [
-        'Plant_1', 'Plant_2', 'Plant_3', 'Plant_4', 'Plant_5', 
-        'Plant_6', 'Plant_7', 'Plant_8', 'Plant_9', 'Plant_10',
-        'Plant_11', 'Plant_12', 'Plant_13', 'Plant_14', 'Plant_15'
-    ] 
+        'Pepper__bell___Bacterial_spot', 
+        'Potato___Early_blight', 
+        'Tomato___Healthy',
+        # ... keep listing all 15 of yours here ...
+    ]
     
     # Setup ResNet18
     model = models.resnet18()
